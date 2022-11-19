@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Two from 'two.js';
 import { Group } from 'two.js/src/group';
-import { Shape } from 'two.js/src/shape';
 import utils from '../utils/trig';
 
 const twoParams = {
@@ -57,7 +56,6 @@ const simpleAnimation = () => {
 	}
 
 	caraxes = two.makeGroup(...snakeGroupArray);
-	caraxes.scale = 2;
 	caraxes.noStroke();
 
 	const update = (frameCount: number) => {
