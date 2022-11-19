@@ -5,8 +5,8 @@ const updatesPerSecond = 5;
 let debouncerWait = false;
 
 const HUD = () => {
-	const [xPos, setXpos] = useState<number>();
-	const [yPos, setYpos] = useState<number>();
+	const [xPos, setXpos] = useState<number>(0);
+	const [yPos, setYpos] = useState<number>(0);
 
 	const onMouseEvent = (e: MouseEvent) => {
 		if (!debouncerWait) {

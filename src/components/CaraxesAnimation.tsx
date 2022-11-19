@@ -58,6 +58,12 @@ const simpleAnimation = () => {
 	caraxes = two.makeGroup(...snakeGroupArray);
 	caraxes.noStroke();
 
+	//TODO proper init
+	const w = document.body.clientWidth;
+	const h = document.body.clientHeight;
+
+	caraxes.position.set(w / 2, h / 2);
+
 	const update = (frameCount: number) => {
 		if (frameCount % velocity != 0) {
 			return;
