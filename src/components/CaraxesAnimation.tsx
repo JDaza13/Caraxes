@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Two from 'two.js';
 import { Group } from 'two.js/src/group';
-import utils from '../utils/trig';
+import trigUtil from '../utils/trig';
 
 const twoParams = {
 	fullscreen: true
@@ -9,7 +9,10 @@ const twoParams = {
 
 let two = new Two(twoParams);
 
-const velocity = 1;
+let mainLoopId: number = -1;
+
+// operations per second
+const OPPS = 60;
 const SNAKE_SIZE = 100;
 const STEPS = SNAKE_SIZE / 2;
 const SNAKE_SPACING = 2;
@@ -18,33 +21,17 @@ const SNAKE_H = 10;
 const SNAKE_HEAD = 5;
 const SNAKE_COLOR = '#6e0303';
 
-let stepCounter = 0;
-
-let sinSteps: number[];
-sinSteps = [];
-for (let i = 0; i <= STEPS; i++) {
-	let rad = (2 * Math.PI * i) / STEPS - 1;
-	sinSteps.push(Math.sin(rad));
-}
-
 let caraxes: Group = new Group();
 
-const getNextSinStep = () => {
-	if (stepCounter >= STEPS) {
-		stepCounter = 0;
-	}
-	let result = sinSteps[stepCounter];
-	stepCounter++;
-	return result;
-};
-
 const simpleAnimation = () => {
-	const elem = document.getElementById('animation-container')! as HTMLElement;
+	const elem = document.getElementById(
+		'animation-container'
+	)! as HTMLElement;
 	two.appendTo(elem);
 	const snakeGroupArray = [];
 
-	for (let i = 0; i < SNAKE_SIZE; i++) {
-		let y = getNextSinStep() * SNAKE_H;
+	for (let i = 0; i <= SNAKE_SIZE; i++) {
+		let y = trigUtil.getSinPathAt(i, STEPS) * SNAKE_H;
 		let radius = (i * SNAKE_HEAD) / SNAKE_SIZE;
 		let snakeCircle = two.makeCircle(
 			(i + 1) * SNAKE_SPACING - SNAKE_W,
@@ -64,10 +51,7 @@ const simpleAnimation = () => {
 
 	caraxes.position.set(w / 2, h / 2);
 
-	const update = (frameCount: number) => {
-		if (frameCount % velocity != 0) {
-			return;
-		}
+	mainLoopId = setInterval(() => {
 		for (let i = 0; i < caraxes.children.length; i++) {
 			let nextPosIdx;
 			if (i + 1 >= caraxes.children.length) {
@@ -75,12 +59,13 @@ const simpleAnimation = () => {
 			} else {
 				nextPosIdx = i + 1;
 			}
-			caraxes.children[i].position.y =
-				caraxes.children[nextPosIdx].position.y;
-		}
-	};
 
-	two.bind('update', update);
+			caraxes.children[i].position.set(
+				caraxes.children[i].position.x,
+				caraxes.children[nextPosIdx].position.y
+			);
+		}
+	}, 1000 / OPPS);
 	two.play();
 };
 
@@ -95,13 +80,14 @@ const onMouseEvent = (e: MouseEvent) => {
 	const originX = w / 2;
 	const originY = h / 2;
 
-	const theta = utils.calcAngleDegrees(x - originX, y - originY);
+	const theta = Math.atan2(y - originY, x - originX);
 
-	caraxes.rotation = utils.deg2rad(theta);
+	caraxes.rotation = theta;
 };
 
 const cleanUp = () => {
 	window.removeEventListener('mousemove', onMouseEvent);
+	clearInterval(mainLoopId);
 	two.clear();
 };
 

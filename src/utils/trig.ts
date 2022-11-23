@@ -1,13 +1,13 @@
 const deg2rad = (degrees: number) => {
-    var pi = Math.PI;
-    return degrees * (pi / 180);
+	return degrees * (Math.PI / 180);
 };
 
-const calcAngleDegrees = (x: number, y: number) => {
-	return (Math.atan2(y, x) * 180) / Math.PI;
+const getSinPathAt = (i: number, steps: number) => {
+	const rad = (2 * Math.PI * i) / steps;
+	return Math.sin(rad);
 };
 
 export default {
-    deg2rad,
-    calcAngleDegrees
+	deg2rad,
+	getSinPathAt
 };
