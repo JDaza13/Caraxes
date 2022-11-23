@@ -15,9 +15,21 @@
 	-webkit-text-size-adjust: 100%;
 }
 
+body {
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	inset: 0px;
+	position: fixed;
+}
+
+/* TODO fix SVG display */
+svg {
+	top: 75px !important;
+}
+
 .main-header {
-	height: 20vh;
-	max-height: 75px;
+	height: 75px;
 	background-color: #4668f5;
 	box-shadow: 1px 2px 5px 2px black;
 	display: flex;
