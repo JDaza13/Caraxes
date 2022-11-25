@@ -3,8 +3,10 @@ import Two from 'two.js';
 import { Group } from 'two.js/src/group';
 import trigUtil from '../utils/trig';
 
+import classes from './CaraxesAnimation.module.scss';
+
 const twoParams = {
-	fullscreen: true
+	fitted: true
 };
 
 let two = new Two(twoParams);
@@ -121,7 +123,10 @@ const CaraxesAnimation = () => {
 
 	return (
 		<>
-			<div id='animation-container'></div>
+			<div
+				id='animation-container'
+				className={classes.animationParent}
+			></div>
 		</>
 	);
 };

@@ -1,6 +1,8 @@
+import classes from './Header.module.scss';
+
 const Header = () => {
 	return (
-		<div className='main-header'>
+		<div className={classes.header}>
 			<div className='link-with-icon'>
 				<a
 					href='https://github.com/JDaza13/Caraxes'

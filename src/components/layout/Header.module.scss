@@ -1,0 +1,10 @@
+@import '../../variables';
+
+.header {
+	height: $header-height;
+	background-color: $header-color;
+	box-shadow: 1px 2px 5px 2px black;
+	display: flex;
+	align-items: center;
+	flex-direction: row-reverse;
+}

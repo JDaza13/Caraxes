@@ -1,3 +1,5 @@
+@import './variables';
+
 :root {
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-size: 16px;
@@ -6,7 +8,7 @@
 
 	color-scheme: light dark;
 	color: rgba(255, 255, 255, 0.87);
-	background-color: #e0e0e03a;
+	background-color: white;
 
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
@@ -21,20 +23,7 @@ body {
 	padding: 0px;
 	inset: 0px;
 	position: fixed;
-}
-
-/* TODO fix SVG display */
-svg {
-	top: 75px !important;
-}
-
-.main-header {
-	height: 75px;
-	background-color: #4668f5;
-	box-shadow: 1px 2px 5px 2px black;
-	display: flex;
-	align-items: center;
-	flex-direction: row-reverse;
+	background: $background;
 }
 
 .link-with-icon {
