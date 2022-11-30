@@ -72,9 +72,18 @@ const simpleAnimation = () => {
 };
 
 // TODO merge mouse and touch logic
-const onMouseMove = (e: MouseEvent) => {
-	const x = e.pageX;
-	const y = e.pageY;
+const onMouseMove = (e: MouseEvent | TouchEvent) => {
+	let x = 0;
+	let y = 0;
+	if (e instanceof TouchEvent) {
+		if (e.targetTouches && e.targetTouches[0]) {
+			x = e.targetTouches[0].pageX;
+			y = e.targetTouches[0].pageY;
+		}
+	} else {
+		x = e.pageX;
+		y = e.pageY;
+	}
 	caraxes.position.set(x, y - 75);
 	// Listen for WxH elsewhere
 	const w = document.body.clientWidth;
@@ -88,27 +97,9 @@ const onMouseMove = (e: MouseEvent) => {
 	caraxes.rotation = theta;
 };
 
-const onTouchMove = (e: TouchEvent) => {
-	if (e.targetTouches && e.targetTouches[0]) {
-		const x = e.targetTouches[0].pageX;
-		const y = e.targetTouches[0].pageY;
-		caraxes.position.set(x, y - 75);
-		// Listen for WxH elsewhere
-		const w = document.body.clientWidth;
-		const h = document.body.clientHeight;
-
-		const originX = w / 2;
-		const originY = h / 2;
-
-		const theta = Math.atan2(y - originY, x - originX);
-
-		caraxes.rotation = theta;
-	}
-};
-
 const cleanUp = () => {
 	window.removeEventListener('mousemove', onMouseMove);
-	window.removeEventListener('touchmove', onTouchMove);
+	window.removeEventListener('touchmove', onMouseMove);
 	clearInterval(mainLoopId);
 	two.clear();
 };
@@ -116,7 +107,7 @@ const cleanUp = () => {
 const CaraxesAnimation = () => {
 	useEffect(() => {
 		window.addEventListener('mousemove', onMouseMove);
-		window.addEventListener('touchmove', onTouchMove);
+		window.addEventListener('touchmove', onMouseMove);
 		simpleAnimation();
 		return () => cleanUp();
 	}, []);
